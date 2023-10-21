@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    
+    <title>Frontend Mentor | Calculator app</title>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/normalize.css"/> <!-- Normalize -->
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css"/> <!-- Reset -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css"/> <!-- Main -->
+
+
+</head>
+<body class="theme1">
+
+    <main>
+        <div class="calculator">
+            <div class="top">
+                <span class="calc-text">calc</span>
+                <div class="theme-select">
+                    <span class="theme-text">THEME</span>
+                    <div class="theme-numbers">
+                        <div class="theme-number">1</div>
+                        <div class="theme-number">2</div>
+                        <div class="theme-number">3</div>
+                    </div>
+                    <div class="toggle-switch">
+                        <div class="toggler"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="screen-wrapper">
+                <input type="text" class="screen" autofocus></input>
+                <div style="display: none;" id="error">Malformed expression</div>
+            </div>
+            <div class="keypad">
+                <div class="key key0 number-operator">0</div>
+                <div class="key key1 number-operator">1</div>
+                <div class="key key2 number-operator">2</div>
+                <div class="key key3 number-operator">3</div>
+                <div class="key key4 number-operator">4</div>
+                <div class="key key5 number-operator">5</div>
+                <div class="key key6 number-operator">6</div>
+                <div class="key key7 number-operator">7</div>
+                <div class="key key8 number-operator">8</div>
+                <div class="key key9 number-operator">9</div>
+                <div class="key keyDot number-operator">.</div>
+                <div class="key keySlash number-operator">/</div>
+                <div class="key keyMultiply number-operator">x</div>
+                <div class="key keyMinus number-operator">-</div>
+                <div class="key keyPlus number-operator">+</div>
+                <div class="key keyDel delete">DEL</div>
+                <div class="key keyReset delete">RESET</div>
+                <div class="key keyEqual result">=</div>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

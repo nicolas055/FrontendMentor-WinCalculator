@@ -1,0 +1,359 @@
+body.theme1 {
+    /* ---Variables--- */
+    /* --Colors-- */
+    /* -Backgrounds- */
+    --background: hsl(222, 26%, 31%);
+    --toggle-and-keypad-bg: hsl(223, 31%, 20%);
+    --screen-bg: hsl(224, 36%, 15%);
+
+    /* -Keys- */
+    --key-bg1: hsl(30, 25%, 89%);
+    --key-shadow1: hsl(28, 16%, 65%);
+    --key-bg-hover1: hsl(0, 0%, 100%);
+
+    --key-bg2: hsl(225, 21%, 49%);
+    --key-shadow2: hsl(224, 28%, 35%);
+    --key-bg-hover2: hsl(224, 51%, 76%);
+
+    --key-bg3-and-toggle: hsl(6, 63%, 50%);
+    --key-shadow3: hsl(6, 70%, 34%);
+    --key-bg-and-toglle-hover3: hsl(6, 93%, 67%);
+
+    /* -Text- */
+    --tx-clr-number-key: hsl(221, 14%, 31%);
+    --tx-clr-default: hsl(0, 0%, 100%);
+    --tx-color-key2: hsl(0, 0%, 100%);
+    --tx-color-key3: hsl(0, 0%, 100%);
+}
+
+body.theme2 {
+    /* ---Variables--- */
+    /* --Colors-- */
+    /* -Backgrounds- */
+    --background: hsl(0, 0%, 90%);
+    --toggle-and-keypad-bg: hsl(0, 5%, 81%);
+    --screen-bg: hsl(0, 0%, 93%);
+
+    /* -Keys- */
+    --key-bg1: hsl(45, 7%, 89%);
+    --key-shadow1: hsl(35, 11%, 61%);
+    --key-bg-hover1: hsl(48, 9%, 89%);
+
+    --key-bg2: hsl(185, 42%, 37%);
+    --key-shadow2: hsl(185, 58%, 25%);
+    --key-bg-hover2: hsl(185, 41%, 56%);
+
+    --key-bg3-and-toggle: hsl(25, 98%, 40%);
+    --key-shadow3: hsl(25, 99%, 27%);
+    --key-bg-and-toglle-hover3: hsl(6, 93%, 67%);
+
+    /* -Text- */
+    --tx-clr-number-key: hsl(60, 10%, 19%);
+    --tx-clr-default: hsl(60, 8%, 20%);
+    --tx-color-key2: hsl(0, 0%, 100%);
+    --tx-color-key3: hsl(0, 0%, 100%);
+}
+
+body.theme3 {
+    /* ---Variables--- */
+    /* --Colors-- */
+    /* -Backgrounds- */
+    --background: hsl(268, 75%, 9%);
+    --toggle-and-keypad-bg: hsl(268, 71%, 12%);
+    --screen-bg: hsl(268, 71%, 12%);
+
+    /* -Keys- */
+    --key-bg1: hsl(268, 47%, 21%);
+    --key-shadow1: hsl(290, 70%, 36%);
+    --key-bg-hover1: hsl(268, 54%, 44%);
+
+    --key-bg2: hsl(281, 89%, 26%);
+    --key-shadow2: hsl(285, 91%, 52%);
+    --key-bg-hover2: hsl(280, 56%, 44%);
+
+    --key-bg3-and-toggle: hsl(176, 100%, 44%);
+    --key-shadow3: hsl(177, 92%, 70%);
+    --key-bg-and-toglle-hover3: hsl(177, 100%, 79%);
+
+    /* -Text- */
+    --tx-clr-number-key: hsl(52, 100%, 62%);
+    --tx-clr-default: hsl(52, 100%, 62%);
+    --tx-color-key2: hsl(0, 0%, 100%);
+    --tx-color-key3: hsl(198, 20%, 13%);
+}
+
+body {
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--tx-clr-default);
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700;
+}
+
+.calculator {
+    max-width: 580px;
+    width: 580px;
+    /* background-color: rgb(43, 14, 71); */
+    padding: 50px;;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top .calc-text {
+    font-size: 25px;
+}
+
+/* Aling itens on grid */
+.top .theme-select {
+    --toggler-size: 18px;
+    --hpadding: 5px;
+
+    display: grid;
+    grid-template-areas: 
+    ". theme-numbers"
+    "theme-text toggle-switch"
+    ;
+    column-gap: 20px;
+}
+
+.theme-text {
+    grid-area: theme-text;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    align-self: center;
+    line-height: normal;
+}
+
+.theme-numbers {
+    display: flex;
+    padding: 0 var(--hpadding);
+    grid-area: theme-numbers;
+    line-height: normal;
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+
+.theme-number {
+    flex: 1;
+    text-align: center;
+}
+
+.toggle-switch {
+    width: calc(var(--toggler-size) * 3 + var(--hpadding) * 2);
+    background-color: var(--toggle-and-keypad-bg);
+    grid-area: toggle-switch;
+    padding: 4px var(--hpadding);
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.toggler {
+    width: var(--toggler-size);
+    height: var(--toggler-size);
+    background-color: var(--key-bg3-and-toggle);
+    border-radius: 50%;
+    transition-property: background-color, transform;
+    transition-duration: 200ms;
+}
+
+body.theme1 .toggler {
+    transform: translateX(0px);
+}
+
+body.theme2 .toggler {
+    transform: translateX(100%);
+}
+
+body.theme3 .toggler {
+    transform: translateX(200%);
+}
+
+
+.toggle-switch:hover .toggler {
+    background-color: var(--key-bg-and-toglle-hover3);
+}
+
+
+/* Screen */
+.screen-wrapper {
+    --h-space: 30px;
+    position: relative;
+}
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    background-color: var(--screen-bg);
+    font-size: 36px;
+    padding: 40px var(--h-space);
+    border-radius: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    height: 125px;
+    line-height: normal;
+    overflow-x: hidden;
+    text-align: end;
+    color: var(--tx-clr-default);
+    border: 0;
+    outline: 0;
+    
+
+}
+#error {
+    position: absolute;
+    right: var(--h-space);
+    bottom: 10px;
+}
+
+/* Keypad */
+.keypad {
+    display: grid;
+    grid-template-areas: 
+    "seven eight nine del"
+    "four five six plus"
+    "one two three minus"
+    "dot zero slash multiply"
+    "reset reset equal equal"
+    ;
+    grid-template-columns: repeat(4, 1fr);
+
+    background-color: var(--toggle-and-keypad-bg);
+    border-radius: 10px;
+    padding: 20px;
+    user-select: none;
+}
+
+.key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    margin: 10px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--tx-clr-number-key);
+    line-height: normal;
+    height: 50px;
+    font-size: 28px;
+    border-radius: 10px;
+    padding-top: 5px;
+    transition: background-color 200ms;
+}
+
+.number-operator {
+    background-color: var(--key-bg1);
+    box-shadow: 0 4px var(--key-shadow1);
+}
+
+.number-operator:hover {
+    background-color: var(--key-bg-hover1);
+}
+
+.delete {
+    background-color: var(--key-bg2);
+    box-shadow: 0 4px var(--key-shadow2);
+    color: var(--tx-color-key2);
+}
+
+.delete:hover {
+    background-color: var(--key-bg-hover2);
+}
+
+.result {
+    background-color: var(--key-bg3-and-toggle);
+    box-shadow: 0 4px var(--key-shadow3);
+    color: var(--tx-color-key3);
+}
+
+.result:hover {
+    background-color: var(--key-bg-and-toglle-hover3);
+}
+
+.key0 {
+    grid-area: zero;
+}
+
+.key1 {
+    grid-area: one;
+}
+
+.key2 {
+    grid-area: two;
+}
+
+.key3 {
+    grid-area: three;
+}
+
+.key4 {
+    grid-area: four;
+}
+
+.key5 {
+    grid-area: five;
+}
+
+.key6 {
+    grid-area: six;
+}
+
+.key7 {
+    grid-area: seven;
+}
+
+.key8 {
+    grid-area: eight;
+}
+
+.key9 {
+    grid-area: nine;
+}
+
+.keyDot {
+    grid-area: dot;
+}
+
+.keySlash {
+    grid-area: slash;
+}
+
+.keyMultiply {
+    grid-area: multiply;
+}
+
+.keyMinus {
+    grid-area: minus;
+}
+
+.keyPlus {
+    grid-area: plus;
+}
+
+.keyDel {
+    grid-area: del;
+}
+
+.keyReset {
+    grid-area: reset;
+}
+
+.keyEqual {
+    grid-area: equal;
+}
+
+
+/* Change color on click or on keydown */
+.bg-color,
+.bg-color:hover {
+    background-color: #333;
+}
