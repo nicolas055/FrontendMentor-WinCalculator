@@ -1,3 +1,7 @@
+:root {
+    --h-space: 30px;
+}
+
 body.theme1 {
     /* ---Variables--- */
     /* --Colors-- */
@@ -95,9 +99,8 @@ body {
 
 .calculator {
     max-width: 580px;
-    width: 580px;
-    /* background-color: rgb(43, 14, 71); */
-    padding: 50px;;
+    width: 530px;
+    padding: 0px 25px;
 }
 
 .top {
@@ -107,7 +110,7 @@ body {
 }
 
 .top .calc-text {
-    font-size: 25px;
+    font-size: 30px;
 }
 
 /* Aling itens on grid */
@@ -153,6 +156,7 @@ body {
     padding: 4px var(--hpadding);
     border-radius: 50px;
     cursor: pointer;
+    user-select: none;
 }
 
 .toggler {
@@ -184,7 +188,6 @@ body.theme3 .toggler {
 
 /* Screen */
 .screen-wrapper {
-    --h-space: 30px;
     position: relative;
 }
 .screen {
@@ -226,10 +229,10 @@ body.theme3 .toggler {
     "reset reset equal equal"
     ;
     grid-template-columns: repeat(4, 1fr);
-
+    gap: 20px;
     background-color: var(--toggle-and-keypad-bg);
     border-radius: 10px;
-    padding: 20px;
+    padding: var(--h-space);
     user-select: none;
 }
 
@@ -238,12 +241,11 @@ body.theme3 .toggler {
     justify-content: center;
     align-items: center;
     color: #000;
-    margin: 10px;
     text-align: center;
     cursor: pointer;
     color: var(--tx-clr-number-key);
     line-height: normal;
-    height: 50px;
+    height: 60px;
     font-size: 28px;
     border-radius: 10px;
     padding-top: 5px;
@@ -356,4 +358,40 @@ body.theme3 .toggler {
 .bg-color,
 .bg-color:hover {
     background-color: #333;
+}
+
+@media screen and (max-width: 550px) {
+    :root {
+        --h-space: 25px
+    }
+
+    .calculator {
+        width: auto;
+        padding: 20px;
+    }
+
+    .screen {
+        height: 100px;
+        font-size: 30px;
+    }
+
+    #error {
+        font-size: 13px;
+    }
+
+    .keypad {
+        gap: 15px;
+    }
+
+    .key {
+        font-size: 24px;
+        height: 50px;
+        border-radius: 5px;
+    }
+
+    .key.delete,
+    .key.result {
+        font-size: 20px;
+    }
+
 }
