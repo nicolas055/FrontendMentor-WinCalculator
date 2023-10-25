@@ -1,3 +1,4 @@
+
 /* Change Theme */
 // Getting elements from html
 const body = document.querySelector('body');
@@ -30,84 +31,70 @@ toggle.addEventListener("click", changeTheme);
 
 /* Caculator Functionality */
 // Getting elements from html
-const screen = document.querySelector('.screen');
-const keypad = document.querySelector('.keypad');
-const errorMsg = document.querySelector('#error');
+const screen = document.getElementById('screen');
+const keypad = document.getElementById('keypad');
 
 // Regex
-const calculatorRgx = /^(?:[0-9./*x+\-]+|)$/; // accepts numbers and signs
-const numberRgx = /^\d+$/; // Accepts only numbers
-const signsRgx = /(?<=[0-9])([-+*/])(?=[0-9])/; // Accpets signs only if they are between numbers
-const consecutivesSignsRgx = /[+\/x-]{2}|[.]{2}/; // Accpets consecutive signs and dots
-const twoDotsRgx = /^(?=.*\..*\.).+$/ // Accpets 2 consecutive dots
+const numbersAndSignsRgx = /[1234567890/*\-+.]/; // Only accepts numbers and signs
+const signsRgx = /[/*\-+]/; // accpets only signs
+
+// Counters
+let typeCounter = 0;
 
 // Functions
-// Change a element bg color for a determined amount of time
-function changeBgClr(item, time) {
-    item.classList.add('bg-color');
-    setTimeout( () => item.classList.remove('bg-color'), time);
+// Give an empty value to screen
+function default0() {
+    if (screen.innerText.length === 0) {
+        screen.innerText = '0';
+        typeCounter = 0;
+    }
 }
 
-let check = 0; // variable that checks whether the result or enter button was pressed
+// Empty the screen
+function emptyScreen() {
+    screen.innerText = ''
+}
+
+// delete the default 0 on the screen
+function deleteDefault0() {
+    if (typeCounter <= 1) emptyScreen();
+}
+
+// Input numbers and signs
 function input(e) {
-    screen.focus()
-    // Hide errorMsg
-    errorMsg.style.display = 'none';
-    // Empty the screen if a number is typed after the last result
-    if(check === 1 && (numberRgx.test(e.key) || numberRgx.test(e.target.innerText))) {
-        screen.value = ''
+    // Accpets the key input only if the key pressed is numbers or signs
+    if (numbersAndSignsRgx.test(e.key)) {
+        screen.append(e.key);
     }
-    // Change the key bg color when it's typed
-    for (let i = 0; i < keypad.children.length; i++) {
-        if(keypad.children[i].innerText === e.key) {
-            changeBgClr(keypad.children[i], 100)
-        }
-    }
-    // Mouse input number
-    if (calculatorRgx.test(e.target.innerText) || e.target.innerText === 'x') {
-        screen.value = screen.value.concat(e.target.innerText);
-        // Change the key bg color when it's clicked
-        if(e.target.getAttribute('class').includes('key ')) {
-            changeBgClr(e.target, 100)
-        }
-    }
-    // Delete
-    if (e.target.innerText.toLowerCase() === 'del') {
-        screen.value = screen.value.slice(0, -1);
-    }
-    // Reset
-    if ((e.ctrlKey && e.key === 'Backspace') || e.target.innerText.toLowerCase() === 'reset') {
-        screen.value = ''
-    }
-    // Result
-    check = 0 // Reset the check variable
-    if (e.key === 'Enter' || e.target.innerText.toLowerCase() === '=') {
-        let result = screen.value.replace('x', '*'); // Replace the x with a * to make evail work fine
-        console.log(result)
-        if ((signsRgx.test(result)) && (!consecutivesSignsRgx.test(result)) && (!twoDotsRgx.test(result))) {
-            screen.value = eval(result); // Display result
-        } else {
-            errorMsg.style.display = 'block'; // Display error message
-        }
-        check = 1
-    }
-    // Replace the * with a x on the screen
-    setTimeout(() => screen.value =  screen.value.replace('*', 'x'), 1)
 }
 
-
-// Event Listeners
-document.addEventListener("keydown", input) // Performs the input function when typing something on the screen
-keypad.addEventListener("click", input) // Performs the input function when clicking an item on the keypad
-
-// Change the key background on mousepress
-keypad.addEventListener("mousedown", (e) => {
-    if (e.target.getAttribute('class').includes('key ')) {
-        e.target.classList.add('bg-color');
+// Delete 1 character
+function del(e) {
+    if (e.key === 'Backspace') {
+        screen.innerText = screen.innerText.slice(0, screen.innerText.length - 1)
     }
-})
-keypad.addEventListener("mouseup", (e) => {
-    if(e.target.getAttribute('class').includes('key ')) {
-        e.target.classList.remove('bg-color');
+}
+
+// Empty the screen when ctrl + Backspace is pressed
+function reset(e) {
+    if (e.ctrlKey && e.key === 'Backspace') {
+        emptyScreen()
     }
-})
+}
+
+// Show the result on screen
+function result(e) {
+    if (e.key === 'Enter') {
+        screen.innerText = math.evaluate(screen.innerText);
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    typeCounter += 1;
+    deleteDefault0();
+    input(e);
+    del(e);
+    reset(e);
+    result(e);
+    default0();
+});
