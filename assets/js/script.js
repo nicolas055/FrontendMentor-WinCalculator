@@ -43,6 +43,10 @@ const numbersRgx = /^[0-9]+$/ // accpets only numbers
 // Counters
 let typeCounter = 0;
 let signCounter = 0;
+let nCounter = 0;
+let pointCounter = 0;
+let checkEnter = false;
+let wasSign = false;
 let operation = {
     n1: '',
     sign: '',
@@ -71,12 +75,30 @@ function deleteDefault0() {
 // Input numbers
 function inputNumber(e) {
     // Accpets the key input only if the key pressed is a number 
-    if (numbersRgx.test(e.key) && signCounter < 1) {
-        operation.n1 = operation.n1.concat(e.key);
-        screen.append(e.key);
+    function concatOperation(e) {
+        if (signCounter < 1) {
+            operation.n1 = operation.n1.concat(e.key).replace(',', '.');
+        } else {
+            operation.n2 = operation.n2.concat(e.key);
+        }
     }
-    if (numbersRgx.test(e.key) && signCounter >= 1) {
-        operation.n2 = operation.n2.concat(e.key);
+
+    if (numbersRgx.test(e.key)) {
+        if (checkEnter && signCounter < 1) {
+            operation.n1 = '';
+            screen.innerText = ''
+            checkEnter = false
+        }
+        concatOperation(e)
+        if (nCounter === -1) screen.innerText = '';
+        screen.append(e.key);
+        nCounter++;
+        wasSign = false
+    }
+    if((e.key === '.' || e.key === ',') && pointCounter < 1) {
+        screen.append(e.key)
+        pointCounter++;
+        concatOperation(e)
     }
 }
 
@@ -84,16 +106,29 @@ function inputNumber(e) {
 function inputSign(e) {
     // Accpets the key input only if the key pressed is a sign
     if (signsRgx.test(e.key)) {
+        if (signCounter > 0 && !wasSign) {
+            screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
+            operation.n1 = '' + math.evaluate(operation.n1 + operation.sign + operation.n2);
+        }
         operation.sign = e.key;
-        signCounter += 1;
         operation.n2 = '';
+        nCounter = -1;
+        signCounter++;
+        wasSign = true;
+        pointCounter = 0;
     }
+    
 }
 
 // Delete 1 character
 function del(e) {
     if (e.key === 'Backspace') {
-        screen.innerText = screen.innerText.slice(0, screen.innerText.length - 1)
+        screen.innerText = screen.innerText.slice(0, screen.innerText.length - 1);
+        if (signCounter < 1) {
+            operation.n1 = operation.n1.slice(0, operation.n1.length - 1);
+        } else {
+            operation.n2 = operation.n2.slice(0, operation.n2.length - 1);
+        }
     }
 }
 
@@ -110,6 +145,7 @@ function result(e) {
         screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
         operation.n1 = '' + math.evaluate(operation.n1 + operation.sign + operation.n2);
         signCounter = 0;
+        checkEnter = true;
     }
 }
 
