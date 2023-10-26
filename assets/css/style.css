@@ -191,7 +191,7 @@ body.theme3 .toggler {
     position: relative;
 }
 
-.previous-operand {
+.previous-input {
     position: absolute;
     top: 10px;
     right: var(--h-space);
