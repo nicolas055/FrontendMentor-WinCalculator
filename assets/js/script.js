@@ -73,46 +73,46 @@ function deleteDefault0() {
 }
 
 // Input numbers
-function inputNumber(e) {
+function inputNumber(input) {
     
-    function concatOperation(e) {
+    function concatOperation(input) {
         if (signCounter < 1) {
-            operation.n1 = operation.n1.concat(e.key).replace(',', '.');
+            operation.n1 = operation.n1.concat(input).replace(',', '.');
         } else {
-            operation.n2 = operation.n2.concat(e.key);
+            operation.n2 = operation.n2.concat(input);
         }
     }
 
     // Accpets the key input only if the key pressed is a number 
-    if (numbersRgx.test(e.key)) {
+    if (numbersRgx.test(input)) {
         if (checkEnter && signCounter < 1) {
             operation.n1 = '';
             previousInput.innerText = ''
             screen.innerText = ''
             checkEnter = false;
         }
-        concatOperation(e)
+        concatOperation(input)
         if (nCounter === -1) screen.innerText = '';
-        screen.append(e.key);
+        screen.append(input);
         nCounter++;
         wasSign = false
     }
-    if((e.key === '.' || e.key === ',') && pointCounter < 1 && !screen.innerText.includes('.')) {
-        screen.append(e.key)
+    if((input === '.' || input === ',') && pointCounter < 1 && !screen.innerText.includes('.')) {
+        screen.append(input)
         pointCounter++;
-        concatOperation(e)
+        concatOperation(input)
     } 
 }
 
 // Input signs
-function inputSign(e) {
+function inputSign(input) {
     // Accpets the key input only if the key pressed is a sign and operation.n1 has a number
-    if (signsRgx.test(e.key) && operation.n1 !== '') {
+    if (signsRgx.test(input) && operation.n1 !== '') {
         if (signCounter > 0 && !wasSign) {
             screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
             operation.n1 = '' + math.evaluate(operation.n1 + operation.sign + operation.n2);
         }
-        operation.sign = e.key;
+        operation.sign = input;
         operation.n2 = '';
         previousInput.innerText = (operation.n1 + ' ' + operation.sign.replace('*', 'x').replace('/', '÷'))
         nCounter = -1;
@@ -124,8 +124,8 @@ function inputSign(e) {
 }
 
 
-function del(e) {
-    if (e.key === 'Backspace') {
+function del(input) {
+    if (input === 'Backspace' || input === 'del'.toUpperCase()) {
         // Delete 1 character
         screen.innerText = screen.innerText.slice(0, screen.innerText.length - 1);
         if (signCounter < 1) {
@@ -146,15 +146,15 @@ function del(e) {
 }
 
 // Empty the screen when ctrl + Backspace is pressed
-function reset(e) {
-    if (e.ctrlKey && e.key === 'Backspace') {
+function reset(event, input) {
+    if (event.ctrlKey && input === 'Backspace' || input === 'reset'.toUpperCase()) {
         emptyScreen()
     }
 }
 
 // Show the result on screen
-function result(e) {
-    if (e.key === 'Enter') {
+function result(input) {
+    if (input === 'Enter' || input === '=') {
         if (operation.n2 === '') operation.n2 = screen.innerText;
         previousInput.innerText = (operation.n1 + ' ' + operation.sign.replace('*', 'x').replace('/', '÷') + ' ' + operation.n2 + ' =');
         screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
@@ -164,14 +164,31 @@ function result(e) {
     }
 }
 
-document.addEventListener('keydown', (e) => {
+function listener(input) {
     typeCounter += 1;
     deleteDefault0();
-    inputNumber(e);
-    inputSign(e)
-    del(e);
-    reset(e);
-    result(e);
+    inputNumber(input);
+    inputSign(input.replace('x', '*'))
+    del(input);
+    result(input);
     default0();
     console.log(operation)
+}
+
+document.addEventListener('keydown', (e) => {
+    listener(e.key)
+    reset('', e.target.innerText);
 });
+
+for(let i = 0; i < keypad.children.length; i++) {
+    keypad.children[i].addEventListener('click', (e) => {
+        listener(e.target.innerText)
+        reset('', e.target.innerText);
+    })
+}
+
+
+
+
+
+
