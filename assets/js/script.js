@@ -87,8 +87,9 @@ function inputNumber(e) {
     if (numbersRgx.test(e.key)) {
         if (checkEnter && signCounter < 1) {
             operation.n1 = '';
+            previousInput.innerText = ''
             screen.innerText = ''
-            checkEnter = false
+            checkEnter = false;
         }
         concatOperation(e)
         if (nCounter === -1) screen.innerText = '';
@@ -137,6 +138,10 @@ function del(e) {
         if (!screen.innerText.includes('.')) {
             pointCounter = 0;
         }
+
+        if(checkEnter) {
+            previousInput.innerText = ''
+        }
     }
 }
 
@@ -150,10 +155,11 @@ function reset(e) {
 // Show the result on screen
 function result(e) {
     if (e.key === 'Enter') {
+        if (operation.n2 === '') operation.n2 = screen.innerText;
+        previousInput.innerText = (operation.n1 + ' ' + operation.sign.replace('*', 'x').replace('/', '÷') + ' ' + operation.n2 + ' =');
         screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
         operation.n1 = '' + math.evaluate(operation.n1 + operation.sign + operation.n2);
         signCounter = 0;
-        previousInput.append(' ' + operation.n2 + ' =')
         checkEnter = true;
     }
 }
