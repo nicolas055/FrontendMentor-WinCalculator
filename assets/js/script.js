@@ -74,7 +74,7 @@ function deleteDefault0() {
 
 // Input numbers
 function inputNumber(e) {
-    // Accpets the key input only if the key pressed is a number 
+    
     function concatOperation(e) {
         if (signCounter < 1) {
             operation.n1 = operation.n1.concat(e.key).replace(',', '.');
@@ -83,6 +83,7 @@ function inputNumber(e) {
         }
     }
 
+    // Accpets the key input only if the key pressed is a number 
     if (numbersRgx.test(e.key)) {
         if (checkEnter && signCounter < 1) {
             operation.n1 = '';
@@ -95,23 +96,24 @@ function inputNumber(e) {
         nCounter++;
         wasSign = false
     }
-    if((e.key === '.' || e.key === ',') && pointCounter < 1) {
+    if((e.key === '.' || e.key === ',') && pointCounter < 1 && !screen.innerText.includes('.')) {
         screen.append(e.key)
         pointCounter++;
         concatOperation(e)
-    }
+    } 
 }
 
 // Input signs
 function inputSign(e) {
-    // Accpets the key input only if the key pressed is a sign
-    if (signsRgx.test(e.key)) {
+    // Accpets the key input only if the key pressed is a sign and operation.n1 has a number
+    if (signsRgx.test(e.key) && operation.n1 !== '') {
         if (signCounter > 0 && !wasSign) {
             screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
             operation.n1 = '' + math.evaluate(operation.n1 + operation.sign + operation.n2);
         }
         operation.sign = e.key;
         operation.n2 = '';
+        previousInput.innerText = (operation.n1 + ' ' + operation.sign.replace('*', 'x').replace('/', '÷'))
         nCounter = -1;
         signCounter++;
         wasSign = true;
@@ -120,14 +122,20 @@ function inputSign(e) {
     
 }
 
-// Delete 1 character
+
 function del(e) {
     if (e.key === 'Backspace') {
+        // Delete 1 character
         screen.innerText = screen.innerText.slice(0, screen.innerText.length - 1);
         if (signCounter < 1) {
             operation.n1 = operation.n1.slice(0, operation.n1.length - 1);
         } else {
             operation.n2 = operation.n2.slice(0, operation.n2.length - 1);
+        }
+
+        // Make sure the input will accept another point after deleting one
+        if (!screen.innerText.includes('.')) {
+            pointCounter = 0;
         }
     }
 }
@@ -145,6 +153,7 @@ function result(e) {
         screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
         operation.n1 = '' + math.evaluate(operation.n1 + operation.sign + operation.n2);
         signCounter = 0;
+        previousInput.append(' ' + operation.n2 + ' =')
         checkEnter = true;
     }
 }
