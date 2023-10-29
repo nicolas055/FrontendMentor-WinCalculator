@@ -40,13 +40,15 @@ const signsRgx = /[/*\-+]/; // accpets only signs
 const numbersRgx = /^[0-9]+$/ // accpets only numbers
 
 
-// Counters
+// Counters and checkers
 let typeCounter = 0;
 let signCounter = 0;
 let nCounter = 0;
 let pointCounter = 0;
 let checkEnter = false;
 let wasSign = false;
+
+// Object that will contain the numbers and signs of the operation
 let operation = {
     n1: '',
     sign: '',
@@ -84,7 +86,12 @@ function inputNumber(input) {
     }
 
     // Accpets the key input only if the key pressed is a number 
-    if (numbersRgx.test(input)) {
+    if (numbersRgx.test(input) && screen.innerText.length < 20) {
+        if (pointCounter === 1) {
+            screen.append('.');
+            concatOperation('.');
+            pointCounter = 2;
+        }
         if (checkEnter && signCounter < 1) {
             operation.n1 = '';
             previousInput.innerText = ''
@@ -97,10 +104,8 @@ function inputNumber(input) {
         nCounter++;
         wasSign = false
     }
-    if((input === '.' || input === ',') && pointCounter < 1 && !screen.innerText.includes('.')) {
-        screen.append(input)
+    if(input === '.' && pointCounter === 0 && !screen.innerText.includes('.') && screen.innerText !== '' && !wasSign) {
         pointCounter++;
-        concatOperation(input)
     } 
 }
 
@@ -123,7 +128,6 @@ function inputSign(input) {
     
 }
 
-
 function del(input) {
     if (input === 'Backspace' || input === 'del'.toUpperCase()) {
         // Delete 1 character
@@ -138,29 +142,58 @@ function del(input) {
         if (!screen.innerText.includes('.')) {
             pointCounter = 0;
         }
-
+        // Empty the previous input if the last typed key was enter
         if(checkEnter) {
             previousInput.innerText = ''
         }
     }
 }
 
-// Empty the screen when ctrl + Backspace is pressed
+// Reset the calculator
 function reset(event, input) {
     if (event.ctrlKey && input === 'Backspace' || input === 'reset'.toUpperCase()) {
         emptyScreen()
+        previousInput.innerText = '';
+        changeBgColor(keypad.querySelector('.keyReset'));
+        typeCounter = 0;
+        signCounter = 0;
+        nCounter = 0;
+        pointCounter = 0;
+        checkEnter = false;
+        wasSign = false;
+        operation = {
+            n1: '',
+            sign: '',
+            n2: ''
+        }
     }
 }
 
 // Show the result on screen
 function result(input) {
-    if (input === 'Enter' || input === '=') {
+    if ((input === 'Enter' || input === '=') && operation.sign !== '' && operation.n1 !== '') {
         if (operation.n2 === '') operation.n2 = screen.innerText;
         previousInput.innerText = (operation.n1 + ' ' + operation.sign.replace('*', 'x').replace('/', '÷') + ' ' + operation.n2 + ' =');
         screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
         operation.n1 = '' + math.evaluate(operation.n1 + operation.sign + operation.n2);
         signCounter = 0;
         checkEnter = true;
+    }
+}
+
+// Change key bg color
+function changeBgColor(element) {
+    element.classList.add('bg-color');
+    setTimeout(() => element.classList.remove('bg-color'), 100)
+}
+
+// Change key bg color when it's typed
+function changeBgColorKeyboard(e) {
+    for(let i = 0; i < keypad.children.length; i++) {
+        if(keypad.children[i].classList.contains('key'+e.key) && !e.ctrlKey) {
+            changeBgColor(keypad.children[i]);
+            break;
+        }
     }
 }
 
@@ -172,18 +205,21 @@ function listener(input) {
     del(input);
     result(input);
     default0();
-    console.log(operation)
+    console.log(operation);
 }
 
+// Event Listeners
 document.addEventListener('keydown', (e) => {
-    listener(e.key)
-    reset('', e.target.innerText);
+    reset(e, e.key);
+    listener(e.key);
+    changeBgColorKeyboard(e);
 });
 
 for(let i = 0; i < keypad.children.length; i++) {
-    keypad.children[i].addEventListener('click', (e) => {
-        listener(e.target.innerText)
+    keypad.children[i].addEventListener('mousedown', (e) => {
         reset('', e.target.innerText);
+        listener(e.target.innerText);
+        changeBgColor(keypad.children[i]);
     })
 }
 
