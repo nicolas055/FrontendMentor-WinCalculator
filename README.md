@@ -31,8 +31,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL [Go to solution](https://www.frontendmentor.io/solutions/calculator-using-eval-method-KlA2DZt4Jl)
-- Live Site URL: [Go to live site](https://frontend-mentor-calculator-liard.vercel.app/)
+- Solution URL [Go to solution](https://www.frontendmentor.io/solutions/calculator-using-mathjs-library-5pedWKoNIc)
+- Live Site URL: [Go to live site](https://frontend-mentor-win-calculator.vercel.app/)
 
 ## My process
 
