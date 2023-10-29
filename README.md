@@ -44,7 +44,6 @@ Users should be able to:
 - CSS Grid
 - CSS variables
 - Basic JS
-- JS method eval
 
 ### What I learned
 
