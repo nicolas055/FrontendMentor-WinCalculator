@@ -4,8 +4,9 @@ const body = document.querySelector('body');
 const toggle = document.querySelector('.toggle-switch');
 
 // Checks if localStorage has a value, if so, replaces the body class with its value
+// If it hasn't, set the body class to the preferred color scheme
 if(localStorage.getItem('theme') !== null) body.classList.replace('theme1',  localStorage.getItem('theme'));
-
+else if(window.matchMedia("(prefers-color-scheme: dark)")) body.classList.replace('theme1', 'theme3');
 // Functions
 function changeTheme() {
     switch (true) {
@@ -177,6 +178,7 @@ function result(input) {
         screen.innerText = math.evaluate(operation.n1 + operation.sign + operation.n2);
         operation.n1 = '' + math.evaluate(operation.n1 + operation.sign + operation.n2);
         signCounter = 0;
+        pointCounter = 0;
         checkEnter = true;
     }
 }

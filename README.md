@@ -14,8 +14,6 @@ This is a solution to the [Calculator app challenge on Frontend Mentor](https://
   - [Useful resources](#useful-resources)
 - [Author](#author)
 
-**Note: Delete this note and update the table of contents based on what sections you keep.**
-
 ## Overview
 
 ### The challenge
@@ -52,26 +50,46 @@ Users should be able to:
 
 I learned a couple of things in js...
 
-I learned about regex
+I learned about regex:
 ```js
-const calculatorRgx = /^(?:[0-9./*x+\-]+|)$/; // accepts numbers and signs
-const numberRgx = /^\d+$/; // Accepts only numbers
-const signsRgx = /(?<=[0-9])([-+*/])(?=[0-9])/; // Accpets signs only if they are between numbers
-const consecutivesSignsRgx = /[+\/x-]{2}|[.]{2}/; // Accpets consecutive signs and dots
-const twoDotsRgx = /^(?=.*\..*\.).+$/ // Accpets 2 consecutive dots
+const numbersAndSignsRgx = /[1234567890/*\-+.]/; // Only accepts numbers and signs
+const signsRgx = /[/*\-+]/; // accpets only signs
+const numbersRgx = /^[0-9]+$/ // accpets only numbers
 ```
 
-How to use eval
+How to use localStorage:
 ```js
-screen.value = eval(result); // Display result
+if(localStorage.getItem('theme') !== null) body.classList.replace('theme1',  localStorage.getItem('theme'));
+
+function changeTheme() {
+    switch (true) {
+        case body.classList.contains('theme1'):
+            body.classList.replace('theme1', 'theme2');
+            localStorage.setItem('theme', 'theme2');
+            break;
+        case body.classList.contains('theme2'):
+            body.classList.replace('theme2', 'theme3');
+            localStorage.setItem('theme', 'theme3');
+            break;
+        case body.classList.contains('theme3'):
+            body.classList.replace('theme3', 'theme1');
+            localStorage.setItem('theme', 'theme1');
+            break;
+    }
+}
 ```
 
-And how to use setTimeout
+how to use setTimeout:
 ```js
 function changeBgClr(item, time) {
     item.classList.add('bg-color');
     setTimeout( () => item.classList.remove('bg-color'), time);
 }
+```
+
+how to use windows.matchMedia and prefers-color-scheme:
+```js
+else if(window.matchMedia("(prefers-color-scheme: dark)")) body.classList.replace('theme1', 'theme3');
 ```
 
 ### Useful resources
